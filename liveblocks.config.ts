@@ -96,8 +96,7 @@ export type UserMeta = BaseUserMeta;
 export type RoomEvent = {};
 
 const client = createClient({
-  publicApiKey:
-    "pk_prod_hxsifK11dNff7o_wuiZQx9FH2z5jvTZmS09I6wFNacLK924Rwh0gvA1WL3s6mldT",
+  publicApiKey: process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY!,
 });
 
 export const {

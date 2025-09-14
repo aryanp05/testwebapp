@@ -8,40 +8,6 @@ import { Toaster } from "sonner";
 import { WorkflowProvider } from "@/contexts/WorkflowContext";
 import { AppProvider } from "@/contexts/AppContext";
 
-import "@rainbow-me/rainbowkit/styles.css";
-
-import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { WagmiProvider } from "wagmi";
-import { arbitrum, base, mainnet, optimism, polygon } from "wagmi/chains";
-
-const story_testnet = {
-  id: 43_115,
-  name: "Story Testnet",
-  iconUrl:
-    "https://pbs.twimg.com/profile_images/1820303986349805569/MKfPfLtz_400x400.jpg",
-  iconBackground: "#fff",
-  nativeCurrency: { name: "Story Testnet", symbol: "IP", decimals: 18 },
-  rpcUrls: {
-    default: { http: ["https://aeneid.storyrpc.io"] },
-  },
-  blockExplorers: {
-    default: { name: "Explorer", url: "https://explorer.story.foundation/" },
-  },
-  contracts: {
-    multicall3: {
-      address: "0xcA11bde05977b3631167028862bE2a173976CA11",
-      blockCreated: 1516,
-    },
-  },
-} as const;
-
-const config = getDefaultConfig({
-  appName: "FinLake",
-  projectId: "YOUR_PROJECT_ID", // walletconnect project id
-  chains: [mainnet, polygon, optimism, arbitrum, base, story_testnet],
-  ssr: true,
-});
-
 const queryClient = new QueryClient();
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -63,27 +29,23 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <WagmiProvider config={config}>
-          <QueryClientProvider client={queryClient}>
-            <RainbowKitProvider>
-              <AppProvider>
-                <WorkflowProvider>
-                  <div className="min-h-screen bg-gray-950">
-                    <main>
-                      <ReactFlowProvider>{children}</ReactFlowProvider>
-                    </main>
-                  </div>
-                  <Toaster
-                    position="bottom-right"
-                    theme="dark"
-                    closeButton
-                    richColors
-                  />
-                </WorkflowProvider>
-              </AppProvider>
-            </RainbowKitProvider>
-          </QueryClientProvider>
-        </WagmiProvider>
+        <QueryClientProvider client={queryClient}>
+          <AppProvider>
+            <WorkflowProvider>
+              <div className="min-h-screen bg-gray-950">
+                <main>
+                  <ReactFlowProvider>{children}</ReactFlowProvider>
+                </main>
+              </div>
+              <Toaster
+                position="bottom-right"
+                theme="dark"
+                closeButton
+                richColors
+              />
+            </WorkflowProvider>
+          </AppProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );
